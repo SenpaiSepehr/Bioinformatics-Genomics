@@ -23,30 +23,11 @@ BMEG 424 Assignment 1 - SepehrNouri
       - [b. Basics of R Analysis](#b-basics-of-r-analysis)
       - [c. Interactively viewing our variants in
         IGV](#c-interactively-viewing-our-variants-in-igv)
-  - [Discussion (6 pts)](#discussion-6-pts)
-  - [Contributions](#contributions)
-  - [THIS ASSIGNMENT WAS DONE BY MYSELF ALONE (took me two full days
-    ;\_;)](#this-assignment-was-done-by-myself-alone-took-me-two-full-days-_)
 
-# BMEG 424 Assignment 1: Introduction and Pipelines - SEPEHR NOURI ID97912356
-
-### Data
-
-The data for this assignment is located at
-`/projects/bmeg/assignments/A1/`. You will be working with a subset of
-sequencing data from a patient. The data is in the fastq format.
+# Project1: End-to-End Pipieline (SnakeMake) & Reproducability
 
 ### Software
-
-Before you begin working on this assignment, you’ll need to create a
-conda environment with all of the relevant software tools installed. You
-can do this by locating the yaml file in `/projects/bmeg/A1/` and
-running
-`conda env create -f /projects/bmeg/A1/A1_environment.yaml --prefix <path_to_your_env>`.
-You can then activate your environment by running
-`conda activate <path_to_your_env>`.
-
-The tools you will be using for this assignment are: - fastQC
+The tools you will be using are: - fastQC
 (<https://www.bioinformatics.babraham.ac.uk/projects/fastqc/>):
 comprehensive quality control measures of sequencing data. - bowtie2
 (<http://bowtie-bio.sourceforge.net/bowtie2/index.shtml>): alignments of
@@ -59,20 +40,15 @@ sequencing data. Will be installed with samtools. - bcftools
 calling from sequencing data. Will be installed with samtools.
 
 ### Goal
-
-The purpose of this assignment is to introduce you to the tools (command
+Introduce you to the tools (command
 line and R) and concepts (reproducibility, parallelization, data
 manipulation etc.) that you will use throughout the course. This
 assignment focuses on the construction of pipelines, which are useful
-for ensuring your analysis is reproducible and efficient.
+for ensuring your analysis is reproducible and efficient. We will be 
+working with patient samples, and using Snakemake to build a pipeline 
+for calling variants from sequencing data.
 
-For this assignment we will be working with patient samples, and using
-Snakemake to build a pipeline for calling variants from sequencing data.
-Note that you really don’t need any understand of what variant calling
-is to complete this assignment, and we will cover it in more detail
-later in the course.
-
-## Experiment and Analysis (20.75 pts):
+## Experiment and Analysis:
 
 ### Part 1: Pipelines
 
@@ -85,7 +61,7 @@ thousands of samples.
 
 #### a. Setting up a pipeline
 
-For this course we will be using a pipeline manager called Snakemake
+We will be using a pipeline manager called Snakemake
 (<https://snakemake.readthedocs.io/en/stable/>). Snakemake is a python
 based pipeline manager which will easily interface with conda and your
 various software tools installed thereby. Snakemake also handles many of
@@ -119,9 +95,8 @@ Variant calling (bcftools; installed with samtools)
 
 It is up to you to implement the remaining steps:
 
-    #?# 1. Fill in the rest of the Snakefile to include rules for sorting the aligned data, indexing the sorted data, and calling variants. (5 pts)
+    #?# 1. Fill in the rest of the Snakefile to include rules for sorting the aligned data, indexing the sorted data, and calling variants.
 
-    #SepehrNouri97912356
     configfile: "config.yaml"
 
     rule all:
@@ -190,18 +165,11 @@ the command line to generate a dependency map of your snakefile. You can
 view the dependency map by typing `eog dag.svg` into the command line.
 
 **2. Include the dependency map of your Snakefile below using Rmarkdown
-syntax (1 pts)** *The correct Rmarkdown syntax is
+syntax** *The correct Rmarkdown syntax is
 ![NameOfImg](path/to/dag.svg)*
 
-SEPEHR Note: in orca1 server, I have the dag.svg located in
-/home/snouri_bmeg25/A1/pipeline/dag.svg, but the linux venv does not
-have eog image viewer package (nor is downloadable). So I SCP the
-dag.svg from remote to local (macOS) then displayed it and took
-screenshot.
-
-![dag](/Users/sepehrnouri/BMEG424/A1/pipeline/dag.svg)
 ![dag](images/dag.svg) **3. Explain what the dependency map is showing
-and whether or not you think it is correct. (1 pts)** Answer: the
+and whether or not you think it is correct. ** Answer: the
 dependency map shows our variant calling and read alignment pipeline,
 with the workflow starting at the top and proressing downwards. The
 first task is align \> followed by samtool_sorting \> then
@@ -217,11 +185,7 @@ files, which are not dependency of any of the subsequent rules (steps).
 Run your pipeline on the sequence data provided. You can do this by
 typing `snakemake --use-conda --cores=1 --resources mem_mb=4000` into
 the command line. You can use screen and htop to check the server usage
-and determine the correct number of resources to allocate (NOTE: If you
-don’t pass any resources to snakemake it will use all available
-resources on the server, which is very inconsiderate to your
-classmates). **Please do not exceed 4GB of memory per job or a single
-core**, use less if you think it’s necessary.
+and determine the correct number of resources to allocate.
 
 ``` bash
 #?# 4. Paste the output of snakemake here (0.25 pts)
@@ -338,7 +302,7 @@ dependency map.
 **5. Include the fastqc graphs from the QC on the forward read (read 1)
 file in your Rmarkdown file below this block. For each graph include a
 brief description of what the graph is showing and whether or not you
-think the data passed the quality control. (5 pts) ** *Please try to
+think the data passed the quality control. ** *Please try to
 separate your descriptions by including an text block between for
 description.*
 
@@ -404,8 +368,7 @@ For this section we will be using samtools to check the alignment of our
 data.
 
 **6. Use samtools flagstat to check the alignment rate of the sample you
-ran. Paste the output below (0.5 pts) and explain what the output means
-(1.5 pts)**
+ran. Paste the output below and explain what the output means**
 
 *Command: (base) <snouri_bmeg25@orca01>:~/A1/pipeline/sorted\$ samtools
 flagstat subset_SRR099957.bam *
@@ -466,8 +429,8 @@ which it includes.
 **7. Below is an R function for reading a VCF file and counting the
 number of occurrences of each unique ref-alt pair in all of the SNPs
 present in the VCF file. There are a few bugs in the code. Debug the
-function (2 pts) and add comments to explain what each line of code is
-doing (1 pts). **
+function and add comments to explain what each line of code is
+doing. **
 
 ``` r
 count_SNPs <- function(file_path) {
@@ -498,7 +461,7 @@ count_SNPs <- function(file_path) {
 ```
 
 **8. Use the returned data frame to plot the ref-alt pairs for all SNPs
-as a bar plot (1 pts)**
+as a bar plot**
 
 ``` r
 # Include the code you used to generate the plot in this block. When you knit your document the plot will be generated and displayed below.
@@ -536,7 +499,7 @@ ggplot(snp_counts, aes(x = paste(REF, "->", ALT), y = COUNT, fill = paste(REF, "
 assignment repo is a plot which shows the distribution of variants
 across the genome. You can download and view this plot manually.
 Recreate this plot using the data from your sample. Include the original
-svg and your recreation in your submission. (4 pts)**
+svg and your recreation in your submission.**
 
 ``` r
 # HINT: You'll want to start by looking at the documentation for the GenomicRanges and GenomicDistributions packages.
@@ -738,11 +701,11 @@ file. Zoom into this position: `chr1: 1,000,000-1,100,000`.
 
 ![IGV](/Users/sepehrnouri/BMEG424/A1/igv.png) ![igv](images/igv.png)
 
-## Discussion (6 pts)
+## Discussion
 
 **11. Do you think the subset of sequence data you analyzed was from
 Whole Genome Sequencing or Whole Exome Sequencing? Justify your response
-with evidence. (4 pts)**
+with evidence**
 
 I think we did Exome Genome Sequencing. Couple reasons for this. 1.
 looking at the variant IGV image above, zooming across 100k bps, we only
@@ -764,7 +727,7 @@ specific genes.
 
 **12. Assuming your snakemake run was supposed to process 1000 samples
 instead of 1 sample. How would you go about checking the quality of all
-the samples? (1 pts)**
+the samples?**
 
 1.  first we make sure the config.yaml file has all sample names
     (currently one 1 sample name)
@@ -779,27 +742,10 @@ the samples? (1 pts)**
     output: “multiqc_report.html” shell: “multiqc {input} -o {output}”
 
 **13. If the run crashed on sample 500, how would you go about
-restarting the run? (1 pts)** we discussed this in class. Basically when
+restarting the run?** we discussed this in class. Basically when
 we restart, we don’t want to re-do the samples 1-\>499, we need to
 program our pipeline so that it checkes outputs for which samples are
 already pressent, and resume from there. I believe Snakemake has a
 command ‘snakemake -j’ which automately restarts from where we left off.
 At the end, it will be useful to double check inside our output
 directory to ensure we have the correct number of files.
-
-## Contributions
-
-Please note here the team members and their contributions to this
-assignment.
-
-## THIS ASSIGNMENT WAS DONE BY MYSELF ALONE (took me two full days ;\_;)
-
-given the final exam can include the content of assignments, I prefer to
-all all alone to learn everything.
-
-Link to chatgpt:
-<https://chatgpt.com/share/678f2a96-758c-800f-aadd-de60976f100f> other
-useful websites I used:
-<https://en.wikipedia.org/wiki/Variant_Call_Format>
-<https://code.databio.org/GenomicDistributions/articles/01-intro.html>
-<https://hbctraining.github.io/Intro-to-ChIPseq-flipped/lessons/04_alignment_using_bowtie2.html>
