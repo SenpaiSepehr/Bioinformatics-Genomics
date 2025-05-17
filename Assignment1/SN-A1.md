@@ -1,8 +1,5 @@
  Project1: End-to-End Pipieline (SnakeMake) & Reproducability
 ================
-
-- [BMEG 424 Assignment 1: Introduction and Pipelines - SEPEHR NOURI
-  ID97912356](#bmeg-424-assignment-1-introduction-and-pipelines---sepehr-nouri-id97912356)
   - [Data](#data)
   - [Software](#software)
   - [Goal](#goal)
