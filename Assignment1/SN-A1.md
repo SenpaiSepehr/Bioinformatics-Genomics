@@ -1,4 +1,4 @@
-BMEG 424 Assignment 1 - SepehrNouri
+ Project1: End-to-End Pipieline (SnakeMake) & Reproducability
 ================
 
 - [BMEG 424 Assignment 1: Introduction and Pipelines - SEPEHR NOURI
@@ -23,8 +23,6 @@ BMEG 424 Assignment 1 - SepehrNouri
       - [b. Basics of R Analysis](#b-basics-of-r-analysis)
       - [c. Interactively viewing our variants in
         IGV](#c-interactively-viewing-our-variants-in-igv)
-
-# Project1: End-to-End Pipieline (SnakeMake) & Reproducability
 
 ### Software
 The tools you will be using are: - fastQC
